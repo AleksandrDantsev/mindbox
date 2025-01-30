@@ -1,0 +1,22 @@
+.header {
+    width: 100%;
+    height: 80px;
+}
+.header_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    border-bottom: solid 1px #ffffff54;
+}
+.header_buttons {
+    margin: 0 50px;
+}
+.header_buttons_list {
+    display: flex;
+    li {
+        margin: 0 5px;
+    }
+}
