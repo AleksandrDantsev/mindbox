@@ -1,0 +1,43 @@
+.wrapper {
+    height: 100vh;
+    width: 100%;
+}
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100% - 80px);
+}
+
+.dark_theme {
+    background: linear-gradient(45deg, #85858f, #755252, #2a3b23, #752da8,  #4b2749);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite 500ms;
+}
+
+.light_theme {
+    background: linear-gradient(45deg, #eff0c9, #d49595, #c6ddbd, #c9b7d6,  #dac7d9);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite 500ms;
+}
+
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+      }
+      25% {
+        background-position: 100% 50%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      75% {
+        background-position: 0% 100%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+  }
+  
