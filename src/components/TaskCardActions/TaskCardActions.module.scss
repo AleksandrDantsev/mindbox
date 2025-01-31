@@ -1,0 +1,13 @@
+.taskcard_actions {
+    ul {
+        display: flex;
+        align-items: center;
+    }
+}
+.taskcard_delete {
+    cursor: pointer;
+}
+.crossed_title {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
