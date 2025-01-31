@@ -1,0 +1,25 @@
+.taskcard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 99%;
+    height: 65px;
+    margin: 10px auto;
+    border-radius: 8px;
+    border: solid 1px #e0e0e0;
+    box-shadow: 0 2px 10px 0 #dadada50;
+}
+.taskcard_container {
+    display: flex;
+    width: 95%;
+}
+.taskcard_complete_button {
+    display: flex;
+    align-items: center;
+}
+.taskcard_title {
+    display: flex;
+    align-items: center;
+    margin: 0 25px;
+    font-size: 25px;
+}
