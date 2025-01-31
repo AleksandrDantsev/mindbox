@@ -1,0 +1,14 @@
+.action_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px;
+    background-color: transparent;
+    border: unset;
+    border-radius: 5px;
+    transition-duration: 300ms;
+    cursor: pointer;
+    &:hover {
+        background-color: #ebeaea73;
+    }
+}
