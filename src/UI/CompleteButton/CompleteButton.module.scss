@@ -1,9 +1,10 @@
-$size: 25px;
+$size: 22px;
 
 .custom_checkbox input[type="checkbox"] {
     display: none;
   }
   .custom_checkbox {
+    transform: translateY(-1px);
     height: $size;
   }
   .custom_checkbox .checkmark {
@@ -18,7 +19,7 @@ $size: 25px;
     cursor: pointer;
   }
   .custom_checkbox input[type="checkbox"]:checked + .checkmark {
-    background-color: #93cf84c4;
+    background-color: #cde5afc4;
   }
   .custom_checkbox .checkmark:hover {
     background-color: rgb(238, 238, 238);

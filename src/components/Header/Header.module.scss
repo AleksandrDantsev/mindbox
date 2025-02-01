@@ -20,3 +20,8 @@
         margin: 0 5px;
     }
 }
+@media only screen and (max-width: 600px) {
+    .header_buttons {
+        margin: unset;
+    }
+}
