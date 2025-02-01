@@ -1,5 +1,6 @@
-import stl from "./InfoTaskDrawer.module.scss";
+import { memo } from "react";
 import { Drawer } from 'antd';
+import stl from "./InfoTaskDrawer.module.scss";
 
 interface IInfoTaskDrawer {
     title: string;
@@ -31,4 +32,4 @@ const InfoTaskDrawer: React.FC<IInfoTaskDrawer> = (
     )
 }
 
-export default InfoTaskDrawer;
+export default memo(InfoTaskDrawer);
