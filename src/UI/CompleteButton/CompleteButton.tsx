@@ -1,6 +1,5 @@
-import { useState } from "react";
+import React, { memo }  from "react";
 import stl from "./CompleteButton.module.scss";
-
 
 interface ICompleteButton {
     isCompleted: boolean;
@@ -8,18 +7,17 @@ interface ICompleteButton {
 }
 
 const CompleteButton: React.FC<ICompleteButton> = ({ isCompleted, onChange }) => {
-    const [isChecked, setIsChecked] = useState<boolean>(isCompleted);
 
-    const handleChange = () => {
-        onChange(!isChecked);
-        setIsChecked(!isChecked);
-    }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newCheckedState = e.target.checked;
+        onChange(newCheckedState);
+    };
 
     return (
         <label className={stl.custom_checkbox}>
             <input 
                 type="checkbox" 
-                checked={isChecked} 
+                checked={isCompleted} 
                 onChange={handleChange} 
             />
             <span className={stl.checkmark}></span>
@@ -27,4 +25,4 @@ const CompleteButton: React.FC<ICompleteButton> = ({ isCompleted, onChange }) =>
     )
 }
 
-export default CompleteButton;
+export default memo(CompleteButton);
