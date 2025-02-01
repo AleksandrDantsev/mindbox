@@ -1,0 +1,25 @@
+.todo_panel_actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.todo_panel_all_left {
+    span {
+        font-size: 15px;
+        color: #464646;
+    }
+}
+.todo_panel_radio {
+    min-width: 50%;
+}
+@media only screen and (max-width: 850px) {
+    .todo_panel_actions {
+        flex-direction: column;
+    }
+    .todo_panel_radio {
+        margin: 20px;
+    }
+    .todo_panel_radio {
+        width: 90%;
+    }
+}
