@@ -2,18 +2,21 @@ import React, { memo } from "react";
 import stl from "./ActionButton.module.scss";
 import { Tooltip } from 'antd';
 import { Icon } from "@ricons/utils"; 
+import type { TTooltipPlacement } from "../../types/TTooltip";
 
 interface IActionButton {
     children: React.ReactNode;
     size?: number;
     color?: string;
     maxSize?: number;
-    onClick: () => void;
+    onClick?: () => void;
     tooltipText?: string;
-    tooltipPlacement?: 'top' | 'left' | 'right' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom'
+    tooltipPlacement?: TTooltipPlacement;
 };
 
-const ActionButton: React.FC<IActionButton> = ({ children, size, color, maxSize, tooltipText, tooltipPlacement, onClick }) => {
+const ActionButton: React.FC<IActionButton> = (
+    { children, size, color, maxSize, tooltipText, tooltipPlacement, onClick }
+) => {
     const maxDimension = `${maxSize ?? 35}px`;
 
     const renderButton = (() => (
@@ -23,7 +26,7 @@ const ActionButton: React.FC<IActionButton> = ({ children, size, color, maxSize,
             onClick={onClick} 
             style={{ maxHeight: maxDimension, maxWidth: maxDimension }}
             >
-            <Icon size={size ?? 25} color={color ?? "#bfbfbf"}>
+            <Icon size={size ?? 25} color={color || "#bfbfbf"} >
                 {children}
             </Icon>
         </button>
@@ -33,9 +36,9 @@ const ActionButton: React.FC<IActionButton> = ({ children, size, color, maxSize,
         <React.Fragment>
             {
                 tooltipText ? 
-                <Tooltip placement={tooltipPlacement ?? "top"} title={tooltipText ?? ""}>
-                    {renderButton}
-                </Tooltip> : renderButton
+                    <Tooltip placement={tooltipPlacement ?? "top"} title={tooltipText ?? ""}>
+                        {renderButton}
+                    </Tooltip> : renderButton
             }
         </React.Fragment>
     )
