@@ -1,35 +1,43 @@
+import { memo } from "react";
 import stl from "./Header.module.scss";
 import { Button } from "antd";
-import { Icon } from "@ricons/utils"; 
-import { Calendar, Sunny } from "@ricons/carbon";
+import { TTheme } from "../../appSettings";
+import ActionButton from "../../UI/ActionButton/ActionButton";
+import { Calendar, Sunny, Moon } from "@ricons/carbon";
 
-const Header: React.FC = () => {
+interface IHeader {
+    theme: TTheme;
+    changeTheme: () => void;
+}
+
+const Header: React.FC<IHeader> = ({ theme, changeTheme }) => {
     return (
         <header className={stl.header}>
             <div className={stl.header_wrapper}>
                 <div className={stl.header_buttons}>
                     <ul className={stl.header_buttons_list}>
-                        <li>
+                        {/* <li>
                             <Button 
                                 type="text" 
                                 size="large" 
                                 icon={
-                                    <Icon size={30} color={"#ffffff"}>
+                                    <ActionButton size={30} color={"#ffffff"}>
                                         <Calendar />
-                                    </Icon>
+                                    </ActionButton>
                                 } 
                             />
-                        </li>
+                        </li> */}
                         <li>
-                            <Button 
-                                type="text" 
-                                size="large" 
-                                icon={
-                                    <Icon size={30} color={"#ffffff"}>
+                            {
+                                theme === "light" ?
+                                    <ActionButton size={30} color={"#ffffff"} onClick={changeTheme}>
                                         <Sunny />
-                                    </Icon>
-                                } 
-                            />
+                                    </ActionButton> :
+                                    <ActionButton size={30} color={"#ffffff"} onClick={changeTheme}>
+                                        <Moon />
+                                    </ActionButton>
+                            } 
+                            
                         </li>
                     </ul>
                 </div>
@@ -38,4 +46,4 @@ const Header: React.FC = () => {
     )
 }
 
-export default Header;
+export default memo(Header);
