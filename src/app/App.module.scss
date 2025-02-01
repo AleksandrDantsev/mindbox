@@ -10,18 +10,37 @@
     height: calc(100% - 80px);
 }
 
+@mixin theme-selection($color) {
+  background-size: 400% 400%;
+  
+  ::selection {
+    background-color: $color;
+    color: white;
+  }
+}
+
 .dark_theme {
-    background: linear-gradient(45deg, #85858f, #755252, #2a3b23, #752da8,  #4b2749);
-    background-size: 400% 400%;
-    animation: gradientMove 15s ease infinite 500ms;
+    background: linear-gradient(45deg, #305e5e, #964747, #161131, #945474,  #644162);
+    @include theme-selection(#9c5c99c4);
 }
 
 .light_theme {
     background: linear-gradient(45deg, #eff0c9, #d49595, #c6ddbd, #c9b7d6,  #dac7d9);
-    background-size: 400% 400%;
-    animation: gradientMove 15s ease infinite 500ms;
+    @include theme-selection(#c494c2c4);
 }
 
+@media only screen and (max-height: 440px) and (orientation: landscape) {
+    .wrapper {
+        height: 120%;
+    }
+    .main {
+        height: 100%;
+    }
+}
+
+.animation_background {
+    animation: gradientMove 12s ease-out infinite 500ms;
+}
 
 @keyframes gradientMove {
     0% {
