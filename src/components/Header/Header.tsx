@@ -1,9 +1,8 @@
 import { memo } from "react";
 import stl from "./Header.module.scss";
-import { Button } from "antd";
 import { TTheme } from "../../appSettings";
 import ActionButton from "../../UI/ActionButton/ActionButton";
-import { Calendar, Sunny, Moon } from "@ricons/carbon";
+import { Sunny, Moon } from "@ricons/carbon";
 
 interface IHeader {
     theme: TTheme;
@@ -11,6 +10,9 @@ interface IHeader {
 }
 
 const Header: React.FC<IHeader> = ({ theme, changeTheme }) => {
+
+    const currentThemeIcon = theme === "light" ? <Sunny /> : <Moon />;
+
     return (
         <header className={stl.header}>
             <div className={stl.header_wrapper}>
@@ -28,16 +30,9 @@ const Header: React.FC<IHeader> = ({ theme, changeTheme }) => {
                             />
                         </li> */}
                         <li>
-                            {
-                                theme === "light" ?
-                                    <ActionButton size={30} color={"#ffffff"} onClick={changeTheme}>
-                                        <Sunny />
-                                    </ActionButton> :
-                                    <ActionButton size={30} color={"#ffffff"} onClick={changeTheme}>
-                                        <Moon />
-                                    </ActionButton>
-                            } 
-                            
+                            <ActionButton size={30} color={"#ffffff"} onClick={changeTheme}>
+                                {currentThemeIcon}
+                            </ActionButton> 
                         </li>
                     </ul>
                 </div>
