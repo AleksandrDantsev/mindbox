@@ -36,7 +36,6 @@ const PanelActionsTasks: React.FC<IPanelActionsTasks> = ({
 
     const onChange = (e: RadioChangeEvent) => {
         const value = e.target.value as TTypeCompletedTask;
-        console.log(value)
         changeFilterType(value);
   };
 
@@ -53,7 +52,7 @@ const PanelActionsTasks: React.FC<IPanelActionsTasks> = ({
                     onChange={onChange}
                 />
             </div>
-            <div className={stl.todo_panel_clear_completed}>
+            <div className={stl.todo_panel_clear_completed + ` ${quantityCompleted === 0 ? stl.disable_button_clear: ""}`}>
                 <Button 
                     type="primary" 
                     variant="filled" 
@@ -66,10 +65,31 @@ const PanelActionsTasks: React.FC<IPanelActionsTasks> = ({
         </React.Fragment>
     ), [quantityCompleted]);
 
+
+    const CounterTask = useMemo(() => {
+        let classCounter = "";
+        let textContent = `Task completed: ${quantityCompleted} of ${allQuantity}`;
+
+        if (allQuantity === quantityCompleted && allQuantity !== 0) { // Если все задачи выполнены
+            classCounter = "all_tasks_completed";
+            textContent = `${t.infoTitles.allTasksAreCompleted} (${quantityCompleted})`
+        }
+        else if (allQuantity === 0) { // Если нет задач
+            classCounter = "no_tasks";
+            textContent = t.infoTitles.noTasks;
+        }
+        return ( // Счетчик выполненных задач
+            <span className={stl?.[classCounter]}>
+                {textContent}
+            </span>
+        );
+    }, [allQuantity, quantityCompleted]);
+
+
     return (
         <div className={stl.todo_panel_actions}>
             <div className={stl.todo_panel_all_left}>
-                <span>{`Task completed: ${quantityCompleted} of ${allQuantity}`}</span>
+                {CounterTask}
             </div>
             {ActionsPanelMemo}
         </div>

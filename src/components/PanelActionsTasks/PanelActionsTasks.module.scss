@@ -4,6 +4,9 @@
     justify-content: space-between;
 }
 .todo_panel_all_left {
+    width: 18%;
+    text-align: center;
+    white-space: nowrap;
     span {
         font-size: 15px;
         color: #464646;
@@ -11,6 +14,18 @@
 }
 .todo_panel_radio {
     min-width: 50%;
+}
+.all_tasks_completed {
+    color: #87b67e !important;
+}
+.no_tasks {
+    color: #b67e7e !important; 
+}
+.disable_button_clear {
+    opacity: 0.6;
+    cursor: unset;
+    pointer-events: none;
+    transition-duration: 1000ms;
 }
 @media only screen and (max-width: 850px) {
     .todo_panel_actions {
@@ -21,5 +36,8 @@
     }
     .todo_panel_radio {
         width: 90%;
+    }
+    .todo_panel_all_left {
+        width: unset;
     }
 }
