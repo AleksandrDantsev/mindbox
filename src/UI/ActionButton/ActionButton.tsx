@@ -1,47 +1,46 @@
 import React, { memo } from "react";
 import stl from "./ActionButton.module.scss";
 import { Tooltip } from 'antd';
-import { Icon } from "@ricons/utils"; 
+import { CustomIcon } from "../../utils/customIcon";
 import type { TTooltipPlacement } from "../../types/TTooltip";
 
 interface IActionButton {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     size?: number;
     color?: string;
     maxSize?: number;
     onClick?: () => void;
     tooltipText?: string;
     tooltipPlacement?: TTooltipPlacement;
+    disabled?: boolean;
+    visible?: boolean;
 };
 
 const ActionButton: React.FC<IActionButton> = (
-    { children, size, color, maxSize, tooltipText, tooltipPlacement, onClick }
+    { children, size, color, maxSize, tooltipText, tooltipPlacement, onClick, disabled, visible }
 ) => {
     const maxDimension = `${maxSize ?? 35}px`;
+    const isVisible = visible ?? true;
 
     const renderButton = (() => (
         <button 
-            className={stl.action_button} 
             type="button" 
-            onClick={onClick} 
+            className={stl.action_button + ` ${disabled ? stl?.disableClass : ""}` + ` ${isVisible ? "" : stl?.unvisible}`} 
             style={{ maxHeight: maxDimension, maxWidth: maxDimension }}
-            >
-            <Icon size={size ?? 25} color={color || "#bfbfbf"} >
-                {children}
-            </Icon>
+            onClick={onClick} 
+        >
+            {CustomIcon(children, size ?? 25, color || "#ababab")}
         </button>
     ))();
 
-    return (
-        <React.Fragment>
-            {
-                tooltipText ? 
-                    <Tooltip placement={tooltipPlacement ?? "top"} title={tooltipText ?? ""}>
-                        {renderButton}
-                    </Tooltip> : renderButton
-            }
-        </React.Fragment>
-    )
+    return tooltipText && !disabled && isVisible ? 
+        <Tooltip 
+            placement={tooltipPlacement ?? "top"} 
+            title={tooltipText ?? ""} 
+            mouseEnterDelay={0.3}
+        >
+            {renderButton}
+        </Tooltip> : renderButton
 }
 
 export default memo(ActionButton);
