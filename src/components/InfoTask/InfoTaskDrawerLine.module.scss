@@ -24,6 +24,8 @@
 .title {
     font-weight: bold;
     color: #696969;
+    white-space: nowrap;
+    margin-right: 10px;
 }
 .drawer_value {
     width: 25%;
@@ -47,4 +49,30 @@
 .full_date {
     color: #a5afb4d3;
     margin-left: 15px;
+}
+
+@media only screen and (max-width: 600px) {
+    .drawer_info_line {
+        width: 70%;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .drawer_info_line {
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .drawer_info_line {
+        width: 100%;
+    }
+    .drawer_name_block {
+        width: 20%;
+    }
+    .icon {
+        margin-right: 5px;
+    }
+    .drawer_value {
+        display: flex;
+        justify-content: end;
+    }
 }

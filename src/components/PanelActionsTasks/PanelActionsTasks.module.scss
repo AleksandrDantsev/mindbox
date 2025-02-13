@@ -2,10 +2,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-top: 30px;
+    border-top: solid 1px #e6e6e68c;
 }
 .todo_panel_all_left {
-    width: 18%;
-    text-align: center;
+    width: 22%;
     white-space: nowrap;
     span {
         font-size: 15px;
@@ -13,7 +14,9 @@
     }
 }
 .todo_panel_radio {
+    transform: translateX(-7%);
     min-width: 50%;
+    margin: 0 10px;
 }
 .all_tasks_completed {
     color: #87b67e !important;
@@ -27,17 +30,25 @@
     pointer-events: none;
     transition-duration: 1000ms;
 }
+@media only screen and (max-width: 1500px) {
+    .todo_panel_radio {
+        transform: unset;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .todo_panel_all_left {
+        width: auto !important;
+    }
+    .todo_panel_radio {
+        width: auto;
+    }
+}
 @media only screen and (max-width: 850px) {
     .todo_panel_actions {
         flex-direction: column;
     }
     .todo_panel_radio {
         margin: 20px;
-    }
-    .todo_panel_radio {
         width: 90%;
-    }
-    .todo_panel_all_left {
-        width: unset;
     }
 }
