@@ -20,6 +20,7 @@ export const t = {
         successfullyDeletedAllTasks : 'All completed tasks have been deleted',
         successfullySetDescription : 'The task description has been saved',
         successfullyChangedTitle : 'The title of task has been changed'
+
     },
     questions: {
         deleteTaskQues: "Are you sure to delete this task?"

@@ -9,6 +9,7 @@ import { ChevronDown, ChevronUp, Pen, EditOff } from "@ricons/carbon";
 import { Information } from "@ricons/carbon";
 import { inscrTooltip as tip, inscrQuestions } from "../../data/inscriptions";
 
+
 interface ITaskCardActions {
     dataItem: ITask;
     changeData: TChangeData;
@@ -17,6 +18,7 @@ interface ITaskCardActions {
     isOpenInputForEditing: boolean;
     onOpenInfoTaskDrawer: () => void;
     setIsOpenInputForEditing: () => void;
+
 }
 
 
@@ -28,6 +30,7 @@ const TaskCardActions: React.FC<ITaskCardActions> = ({
     isOpenInputForEditing,
     onOpenInfoTaskDrawer,
     setIsOpenInputForEditing
+
 }) => {
 
     const onDeleteTask = () => {

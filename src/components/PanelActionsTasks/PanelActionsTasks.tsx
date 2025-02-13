@@ -75,6 +75,7 @@ const PanelActionsTasks: React.FC<IPanelActionsTasks> = ({
         else if (allQuantity === 0) { // Если нет задач
             classCounter = "no_tasks";
             textContent = inscrInfoTitles.noTasks;
+
         }
         return ( // Счетчик выполненных задач
             <span className={stl?.[classCounter]}>

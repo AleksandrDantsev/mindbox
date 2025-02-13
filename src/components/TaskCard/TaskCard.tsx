@@ -8,6 +8,7 @@ import CompleteButton from "../../UI/CompleteButton/CompleteButton";
 import InfoTaskDrawerLine from "../InfoTask/InfoTaskDrawerLine";
 import { capitalize } from "../../utils/capitilize";
 
+
 interface ITaskCard {
     dataItem: ITask;
     changeData: TChangeData;
@@ -21,6 +22,7 @@ const TaskCard: React.FC<ITaskCard> = ({ dataItem, changeData, index, isLastItem
     const [isOpenInputForEditing, setIsOpenInputForEditing] = useState<boolean>(false);
     const [description, setDescription] = useState(dataItem.description);
     const [changedInputValue, setChangedInputValue] = useState<string>(dataItem.title);
+
 
 
     const changeStatus = () => {
@@ -46,6 +48,7 @@ const TaskCard: React.FC<ITaskCard> = ({ dataItem, changeData, index, isLastItem
     const setNewDescription = (text: string) => {
         setDescription(text);
     }
+
 
     const onInputChangedValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const value = e.target.value;
