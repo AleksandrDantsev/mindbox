@@ -2,6 +2,8 @@ import { ITask } from "../types/TTasks"
 import { getMaxId } from "../utils/getMaxId";
 import { tasks, createTask } from "../data/tasks";
 import { appSetting } from "../appSettings";
+import { setTimeNow } from "../utils/setTimeNow";
+import { LocalStorage } from "../utils/localStorage";
 
 type TAction = {
     delete: (id: number, title: string) => ITask[];
@@ -10,13 +12,15 @@ type TAction = {
     getQuantityCompletedTasks: () => {all: number, completed: number};
     changeActiveStatus: (id: number) => ITask[];
     clearCompleted: (data: ITask[]) => ITask[];
+    moveTask: (task: ITask, placement: "up" | "down") => ITask[];
+    setDescription: (id: number, text: string) => ITask[];
 }
 
 const day = "16march2024"; // todo
 
 export const setActualData = (data: ITask[]): void => {
     tasks[day] = data;
-    localStorage.setItem(appSetting.localStorageName, JSON.stringify(tasks));
+    LocalStorage("set", appSetting.localStorageName, tasks);
 };
 
 
@@ -41,9 +45,9 @@ export const action: TAction = {
                 id: newId,
                 description: "",
                 isCompleted: false,
-                timeStart: "",
-                timeEnd: "",
-                timeOfCreation: "",
+                timeStart: setTimeNow(1),
+                timeEnd: setTimeNow(5),
+                timeOfCreation: setTimeNow(),
                 subtasks: [
                 {
                     subId: 1,
@@ -88,4 +92,32 @@ export const action: TAction = {
         return quantity;
     },
 
+    moveTask: (task: ITask, placement: "up" | "down") => {
+        const copiedData = [...tasks[day]];;
+        const index = copiedData.findIndex(el => el.id === task.id);
+
+        if (index === -1) return copiedData;
+
+        const isAllowedMoving = (placement === "up" && index > 0) || 
+                                (placement === "down" && index < copiedData.length - 1);
+
+        if (isAllowedMoving) {
+            const newIndex = placement === "up" ? index - 1 : index + 1;
+            const element = copiedData.splice(index, 1)[0];
+
+            copiedData.splice(newIndex, 0, element);
+        }
+        setActualData(copiedData);
+
+        return [...copiedData];
+    },
+
+    setDescription: (id: number, text: string) => {
+        const result = tasks[day].map((item: ITask) => {
+            if (item?.id === id) item.description = text;
+            return item;
+        })
+        setActualData(result);
+        return result;
+    } 
 }
