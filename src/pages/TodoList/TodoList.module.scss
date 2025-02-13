@@ -1,7 +1,6 @@
 .todo_block {
     height: calc(100% / 1.5);
     width: calc(100% / 2.0);
-    border-radius: 40px;
     background-color: #fff;
     box-shadow: 0 5px 15px 0 #b6b6b638;
 }
@@ -20,12 +19,17 @@
     margin-left: 45px;
     transform: translateY(-2px);
 }
+
 .todo_list {
     height: 65%;
     padding: 15px 0;
 }
 .todo_info_actions {
     height: 10%;
+}
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #e7e7e7 transparent;
 }
 ::-webkit-scrollbar {
     width: 5px;
@@ -40,6 +44,7 @@ background: #555;
 ::-webkit-scrollbar-track {
 background: #f1f1f1;
 }
+
 
 @media only screen and (max-width: 1400px) {
     .todo_block {
