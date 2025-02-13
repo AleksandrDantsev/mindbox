@@ -7,9 +7,9 @@ export interface ITask {
     title: string;
     description: string;
     isCompleted: boolean;
-    timeStart: string | Date;
-    timeEnd: string | Date;
-    timeOfCreation: string | Date;
+    timeStart: string ;
+    timeEnd: string;
+    timeOfCreation: string;
     subtasks?: ISubtask[];
 };
 
