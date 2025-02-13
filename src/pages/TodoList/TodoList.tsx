@@ -24,6 +24,7 @@ const TodoList: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>("");
     const [typeTasks, setTypeTasks] = useState<TTypeCompletedTask>("All");
     const [messageApi, contextHolder] = message.useMessage();
+    const maxLenghtInput = 120;
 
     const qunatityCompletedTask = action.getQuantityCompletedTasks();
 
@@ -123,6 +124,8 @@ const TodoList: React.FC = () => {
                 onSearch={addTask}
                 onChange={onChangeInputValue}
                 value={inputValue}
+                maxLength={maxLenghtInput}
+                suffix={<span className={stl.counter_length_input}>{inputValue.length} / {maxLenghtInput}</span>}
             />
         )
     }, [inputValue, typeTasks]);
