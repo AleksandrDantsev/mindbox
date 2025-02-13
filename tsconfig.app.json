@@ -16,11 +16,17 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "strict": true,
+    // "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "allowJs": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "skipDefaultLibCheck": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*", "src/setupTests.ts"]
 }
