@@ -1,0 +1,50 @@
+.drawer_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 70%;
+}
+.drawer_list {
+    user-select: none;
+    li {
+        margin: 10px 0;
+    }
+}
+.drawer_info_line {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+.drawer_name_block {
+    display: flex;
+}
+.icon {
+    margin-right: 20px;
+}
+.title {
+    font-weight: bold;
+    color: #696969;
+}
+.drawer_value {
+    width: 25%;
+    min-width: 150px;
+    text-align: left;
+}
+.completedInscr {
+    color: #038303;
+}
+.uncompletedInsc {
+    color: #3e5de4;
+}
+.description {
+    height: auto;
+    margin: 50px 0;
+}
+.description_title {
+    margin: 10px 0 30px 0;
+    font-size: 21px;
+}
+.full_date {
+    color: #a5afb4d3;
+    margin-left: 15px;
+}
