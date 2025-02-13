@@ -6,17 +6,23 @@ import InfoTaskDrawer from "../InfoTask/InfoTask";
 import TaskCardActions from "../TaskCardActions/TaskCardActions";
 import CompleteButton from "../../UI/CompleteButton/CompleteButton";
 import InfoTaskDrawerLine from "../InfoTask/InfoTaskDrawerLine";
+import { capitalize } from "../../utils/capitilize";
+
 
 interface ITaskCard {
     dataItem: ITask;
     changeData: TChangeData;
     index: number;
+    maxLenghtInput: number;
     isLastItemInList: boolean;
 }
 
-const TaskCard: React.FC<ITaskCard> = ({ dataItem, changeData, index, isLastItemInList }) => {
+const TaskCard: React.FC<ITaskCard> = ({ dataItem, changeData, index, isLastItemInList, maxLenghtInput }) => {
     const [isOpenedDrawer, setIsOpenedDrawer] = useState<boolean>(false);
+    const [isOpenInputForEditing, setIsOpenInputForEditing] = useState<boolean>(false);
     const [description, setDescription] = useState(dataItem.description);
+    const [changedInputValue, setChangedInputValue] = useState<string>(dataItem.title);
+
 
 
     const changeStatus = () => {
@@ -43,6 +49,26 @@ const TaskCard: React.FC<ITaskCard> = ({ dataItem, changeData, index, isLastItem
         setDescription(text);
     }
 
+
+    const onInputChangedValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
+        if (value !== null) {
+            setChangedInputValue(value);
+        }
+    }
+
+    const toggleEditingField = () => {
+        setIsOpenInputForEditing(!isOpenInputForEditing);
+
+        if (isOpenInputForEditing && dataItem.title !== changedInputValue) {
+            changeData({
+                actionType: "changeTitleOfTask",
+                id: dataItem.id,
+                text: capitalize(changedInputValue)
+            })
+        }
+    }
+
     return (
         <div className={stl.taskcard}>
             <div className={stl.taskcard_container}>
@@ -53,14 +79,27 @@ const TaskCard: React.FC<ITaskCard> = ({ dataItem, changeData, index, isLastItem
                     />
                 </div>
                 <div className={stl.taskcard_title}>
-                    <h3 className={dataItem.isCompleted ? stl.crossed_title : ""}>
-                        {`${index + 1}. ` + dataItem.title}
-                    </h3>
+                    {
+                    isOpenInputForEditing ?
+                        <textarea
+                            className={stl.editable_title_block}
+                            value={changedInputValue}
+                            onChange={onInputChangedValue}
+                            onBlur={toggleEditingField}
+                            maxLength={maxLenghtInput}
+                        />
+                        :
+                        <h3 className={dataItem.isCompleted ? stl.crossed_title : ""}>
+                            {`${index + 1}. ` + dataItem.title}
+                        </h3>
+                    }
                 </div>
                 <TaskCardActions 
                     dataItem={dataItem} 
                     changeData={changeData} 
-                    onOpenInfoTaskDrawer={onOpenInfoTaskDrawer} 
+                    onOpenInfoTaskDrawer={onOpenInfoTaskDrawer}
+                    isOpenInputForEditing={isOpenInputForEditing}
+                    setIsOpenInputForEditing={toggleEditingField}
                     index={index}
                     isLastItemInList={isLastItemInList}
                 />

@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import stl from "./PanelActionsTasks.module.scss";
 import { Radio, Button } from 'antd';
 import { TTypeCompletedTask } from "../../types/ChangeDataAction";
-import { t } from "../../data/inscriptions";
+import { inscrButton as tip, inscrInfoTitles } from "../../data/inscriptions";
 import type { TChangeData } from "../../types/ChangeDataAction";
 import type { RadioChangeEvent } from 'antd';
 import type { CheckboxGroupProps } from 'antd/es/checkbox';
@@ -13,8 +13,6 @@ interface IPanelActionsTasks {
     changeFilterType: (type: TTypeCompletedTask) => void
     changeData: TChangeData;
 }
-
-const tip = t.buttons;
 
 const options: CheckboxGroupProps<string>['options'] = [
     { label: tip.all, value: tip.all },
@@ -72,11 +70,12 @@ const PanelActionsTasks: React.FC<IPanelActionsTasks> = ({
 
         if (allQuantity === quantityCompleted && allQuantity !== 0) { // Если все задачи выполнены
             classCounter = "all_tasks_completed";
-            textContent = `${t.infoTitles.allTasksAreCompleted} (${quantityCompleted})`
+            textContent = `${inscrInfoTitles.allTasksAreCompleted} (${quantityCompleted})`
         }
         else if (allQuantity === 0) { // Если нет задач
             classCounter = "no_tasks";
-            textContent = t.infoTitles.noTasks;
+            textContent = inscrInfoTitles.noTasks;
+
         }
         return ( // Счетчик выполненных задач
             <span className={stl?.[classCounter]}>

@@ -4,12 +4,11 @@ import { CustomIcon } from "../../utils/customIcon";
 import { ITask } from "../../types/TTasks";
 import { Time, ArrowLeft, ArrowRight, StatusAcknowledge } from "@ricons/carbon";
 import { Input } from 'antd';
-import { t } from "../../data/inscriptions";
+import { inscrInfoTitles as tips } from "../../data/inscriptions";
 import { capitalize } from "../../utils/capitilize";
 
 
 const { TextArea } = Input;
-const tips = t.infoTitles;
 
 interface IInfoTaskDrawerLine {
     dataItem: ITask;
