@@ -105,7 +105,9 @@ const TodoList: React.FC = () => {
 
         const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
             const value = e.target.value;
-            setInputValue(capitalize(value));
+            if (value.trim() || value.length === 0) {
+                setInputValue(capitalize(value));
+            };
 
         }
 
