@@ -1,9 +1,8 @@
 import { useMemo, useState, useCallback } from "react";
 import stl from "./TodoList.module.scss";
 import TaskCard from "../../components/TaskCard/TaskCard";
-import { Input, Layout, Switch } from 'antd';
-import { AddAlt, Search as ISearch } from "@ricons/carbon";
-import { Icon } from "@ricons/utils"; 
+import { Input, Layout, message } from 'antd';
+import { TaskAdd } from "@ricons/carbon";
 import { tasks } from "../../data/tasks";
 import { ITask } from "../../types/TTasks";
 import { action } from "../../helpers/taskActions";
@@ -11,81 +10,88 @@ import { TTypeCompletedTask } from "../../types/ChangeDataAction";
 import { capitalize } from "../../utils/capitilize";
 import PanelActionsTasks from "../../components/PanelActionsTasks/PanelActionsTasks";
 import NotFound from "../../components/NotFound/NotFound";
+import { t } from "../../data/inscriptions";
+import { CustomIcon } from "../../utils/customIcon";
 
 const { Content } = Layout;
 const { Search } = Input;
-
-const payloadInput = {
-    add: {
-        placeholder: "Add a task",
-        icon: 
-            <Icon size={19} color={"#fffff"}>
-                <AddAlt />
-            </Icon>
-    },
-    search: {
-        placeholder: "Search a task",
-        icon: 
-            <Icon size={19} color={"#fffff"}>
-                    <ISearch />
-            </Icon>
-    }
-};
 
 const currentDay = "16march2024"; // Временно
 
 
 const TodoList: React.FC = () => {
     const [data, setData] = useState<ITask[]>(tasks[currentDay]);
-    const [actionInput, setActionInput] = useState<"search" | "add">("add");
     const [inputValue, setInputValue] = useState<string>("");
     const [typeTasks, setTypeTasks] = useState<TTypeCompletedTask>("All");
-
-    const currentInputPayload = payloadInput[actionInput as keyof typeof payloadInput];
-    console.log("")
-    console.log(data, "State данные")
-    console.log(tasks["16march2024"], "Первоначальные данные")
+    const [messageApi, contextHolder] = message.useMessage();
 
     const qunatityCompletedTask = action.getQuantityCompletedTasks();
 
-    // const changeActionInput = (checked: boolean) => {
-    //     setActionInput(checked ? "search" : "add");
-    // }
 
     const filteredTasks = useMemo(() => {
             if (typeTasks === "All") return data; 
-            const condition = typeTasks === "Completed";
+            const isCurrentTaskCompleted = typeTasks === "Completed";
 
-            return data.filter((item: ITask) => item.isCompleted === condition)
+            return data.filter((item: ITask) => item.isCompleted === isCurrentTaskCompleted);
     }, [typeTasks, data])
 
-    const changeData = useCallback(({ actionType, id, title }: {
+
+    const changeData = useCallback(({ actionType, id, title, task, placement, text }: {
         actionType: string;
         id?: number;
         title?: string;
+        placement?: "up" | "down";
+        task?: ITask;
+        text: string;
       }) => {
+        const showMessage = (text: string) => {
+            messageApi.open({
+                type: 'success',
+                content: text,
+            });
+        }
+
         switch(actionType) {
             case "delete":
                 if (id !== undefined && title !== undefined) {
                     setData(action.delete(id, title));
+                    showMessage(t.messages.successfullyDeleted);
                 } return;
 
             case "status":
                 if (id !== undefined) {
+                    const targetTask = filteredTasks.find(el => el.id === id);
+                    if (targetTask) {
+                        const statusTaskText = targetTask.isCompleted ? 
+                            t.messages.successfullyChangedStatusActive :
+                            t.messages.successfullyChangedStatusCompleted; 
+                        showMessage(statusTaskText);
+                    }
                     setData(action.changeActiveStatus(id));
                 } return;
 
             case "clearCompleted":
                 setData(action.clearCompleted(data));
+                showMessage(t.messages.successfullyDeletedAllTasks);
                 return;
 
+            case "moveTask":
+                setData(action.moveTask(task, placement));
+                return;
+
+            case "setDescription":
+                setData(action.setDescription(id, text));
+                showMessage(t.messages.successfullySetDescription);
+                return;
             default: return;
         }
-    }, [data])
+    }, [data]);
+
 
     const changeFilterType = useCallback((type: TTypeCompletedTask): void => {
         setTypeTasks(type);
-    }, [])
+    }, []);
+
 
     const addTask = () => {
         if (!inputValue?.length) return;
@@ -95,75 +101,56 @@ const TodoList: React.FC = () => {
     };
 
 
-
-
     const SearchMemo = useMemo(() => {
-        // const findTaskByTitle = () => {
-        //     if (inputValue?.length) {
-        //         console.log(filteredTasks, inputValue)
-        //         setData(action.find(data, inputValue));
-        //     }
-        //     if (inputValue!.length <= 1) {
-        //         setData(tasks[currentDay]);
-        //     }
-        // }
 
         const onChangeInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-            let value = e.target.value
-            if (actionInput === "add") {
-                value = capitalize(value);
-            }
-            // else {
-            //     findTaskByTitle();
-            // }
-            setInputValue(value);
+            const value = e.target.value;
+            setInputValue(capitalize(value));
+
         }
 
-        const isAllowedAdding = typeTasks === "All" || actionInput === "search";
+        const isAllowedAdding = typeTasks === "All" || typeTasks === "Active";
+        const AddTaskIcon = CustomIcon(<TaskAdd />, 19, "#ffffff");
 
         return (
             <Search 
                 size="large" 
                 disabled={!isAllowedAdding}
-                placeholder={currentInputPayload.placeholder} 
-                enterButton={currentInputPayload.icon}
-                onSearch={actionInput === "add" ? addTask : () => {}}
+                placeholder={t.placeholders.addTask} 
+                enterButton={AddTaskIcon}
+                onSearch={addTask}
                 onChange={onChangeInputValue}
                 value={inputValue}
             />
         )
-    }, [inputValue, typeTasks, actionInput])
+    }, [inputValue, typeTasks]);
 
 
-    const ContentMemo = useMemo(() => (
-        <Content style={{ overflowY: 'auto', height: '100%' }}>
-            {
-                filteredTasks.length ? filteredTasks.map((item: ITask) => (
-                    <TaskCard dataItem={item} changeData={changeData} key={item.id + item.title} />
-                )) :
-                <NotFound typeInput={actionInput} typeTab={typeTasks} textSearch={inputValue} />
-            }
-        </Content>
-    ), [filteredTasks]);
+    const ContentMemo = useMemo(() => {
+        return (
+            <Content style={{ overflowY: 'auto', height: '100%' }}>
+                {contextHolder}
+                {
+                    filteredTasks?.length ? filteredTasks.map((item: ITask) => (
+                        <TaskCard 
+                            key={item.id + item.title} 
+                            index={filteredTasks.findIndex(task => task.id === item.id)}
+                            dataItem={item} 
+                            changeData={changeData}
+                            isLastItemInList={filteredTasks.findIndex(task => task.id === item.id) === filteredTasks.length - 1}
+                         />
+                    )) :
+                    <NotFound typeTab={typeTasks} textSearch={inputValue} />
+                }
+            </Content>
+        )
+    }, [filteredTasks]);
 
-
-    // const SwitcherMemo = useMemo(() => (
-    //     <Switch 
-    //         checkedChildren={"Search"} 
-    //         unCheckedChildren={"Add"} 
-    //         onChange={changeActionInput}
-    //     />
-    // ), []);
-
-    
     return (
         <div className={stl.todo_block}>
             <div className={stl.todo_container}>
                 <div className={stl.todo_adding_search}>
                     {SearchMemo}
-                    {/* <div className={stl.todo_switch_container}>
-                        {SwitcherMemo}
-                    </div> */}
                 </div>
                 <div className={stl.todo_list}>
                     {ContentMemo}
