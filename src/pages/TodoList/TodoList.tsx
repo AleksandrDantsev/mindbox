@@ -10,7 +10,7 @@ import { TTypeCompletedTask } from "../../types/ChangeDataAction";
 import { capitalize } from "../../utils/capitilize";
 import PanelActionsTasks from "../../components/PanelActionsTasks/PanelActionsTasks";
 import NotFound from "../../components/NotFound/NotFound";
-import { t } from "../../data/inscriptions";
+import { inscrMessages, inscrPlaceholders } from "../../data/inscriptions";
 import { CustomIcon } from "../../utils/customIcon";
 
 const { Content } = Layout;
@@ -24,7 +24,7 @@ const TodoList: React.FC = () => {
     const [inputValue, setInputValue] = useState<string>("");
     const [typeTasks, setTypeTasks] = useState<TTypeCompletedTask>("All");
     const [messageApi, contextHolder] = message.useMessage();
-    const maxLenghtInput = 120;
+    const maxLenghtInput = 90;
 
     const qunatityCompletedTask = action.getQuantityCompletedTasks();
 
@@ -56,7 +56,7 @@ const TodoList: React.FC = () => {
             case "delete":
                 if (id !== undefined && title !== undefined) {
                     setData(action.delete(id, title));
-                    showMessage(t.messages.successfullyDeleted);
+                    showMessage(inscrMessages.successfullyDeleted);
                 } return;
 
             case "status":
@@ -64,8 +64,8 @@ const TodoList: React.FC = () => {
                     const targetTask = filteredTasks.find(el => el.id === id);
                     if (targetTask) {
                         const statusTaskText = targetTask.isCompleted ? 
-                            t.messages.successfullyChangedStatusActive :
-                            t.messages.successfullyChangedStatusCompleted; 
+                            inscrMessages.successfullyChangedStatusActive :
+                            inscrMessages.successfullyChangedStatusCompleted; 
                         showMessage(statusTaskText);
                     }
                     setData(action.changeActiveStatus(id));
@@ -73,7 +73,7 @@ const TodoList: React.FC = () => {
 
             case "clearCompleted":
                 setData(action.clearCompleted(data));
-                showMessage(t.messages.successfullyDeletedAllTasks);
+                showMessage(inscrMessages.successfullyDeletedAllTasks);
                 return;
 
             case "moveTask":
@@ -82,7 +82,12 @@ const TodoList: React.FC = () => {
 
             case "setDescription":
                 setData(action.setDescription(id, text));
-                showMessage(t.messages.successfullySetDescription);
+                showMessage(inscrMessages.successfullySetDescription);
+                return;
+
+            case "changeTitleOfTask":
+                setData(action.changeTitleOfTask(id, text));
+                showMessage(inscrMessages.successfullyChangedTitle);
                 return;
             default: return;
         }
@@ -119,7 +124,7 @@ const TodoList: React.FC = () => {
             <Search 
                 size="large" 
                 disabled={!isAllowedAdding}
-                placeholder={t.placeholders.addTask} 
+                placeholder={inscrPlaceholders.addTask} 
                 enterButton={AddTaskIcon}
                 onSearch={addTask}
                 onChange={onChangeInputValue}
@@ -142,6 +147,7 @@ const TodoList: React.FC = () => {
                             index={filteredTasks.findIndex(task => task.id === item.id)}
                             dataItem={item} 
                             changeData={changeData}
+                            maxLenghtInput={maxLenghtInput}
                             isLastItemInList={filteredTasks.findIndex(task => task.id === item.id) === filteredTasks.length - 1}
                          />
                     )) :
