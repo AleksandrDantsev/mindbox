@@ -1,11 +1,20 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { ConfigProvider } from "antd";
 import "./fonts/fonts.css";
-import './index.css'
-import App from './app/App.tsx'
+import './index.css';
+import App from './app/App.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ConfigProvider
+        theme={{
+            token: {
+                colorPrimary: "#e54e4e",
+            }
+        }}
+    >
+        <App />
+    </ConfigProvider>
   </StrictMode>,
 )
