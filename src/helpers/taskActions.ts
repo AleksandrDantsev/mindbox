@@ -14,6 +14,7 @@ type TAction = {
     clearCompleted: (data: ITask[]) => ITask[];
     moveTask: (task: ITask, placement: "up" | "down") => ITask[];
     setDescription: (id: number, text: string) => ITask[];
+    changeTitleOfTask: (id: number, newTitle: string) => ITask[];
 }
 
 const day = "16march2024"; // todo
@@ -93,7 +94,7 @@ export const action: TAction = {
     },
 
     moveTask: (task: ITask, placement: "up" | "down") => {
-        const copiedData = [...tasks[day]];;
+        const copiedData = [...tasks[day]];
         const index = copiedData.findIndex(el => el.id === task.id);
 
         if (index === -1) return copiedData;
@@ -119,5 +120,18 @@ export const action: TAction = {
         })
         setActualData(result);
         return result;
-    } 
+    },
+
+    changeTitleOfTask: (id: number, newTitle: string) => {
+        const copiedData = [...tasks[day]];
+
+        if (!newTitle.length) return copiedData;
+
+        for (const item of copiedData) {
+            if (item.id === id) item.title = newTitle;
+        }
+
+        setActualData(copiedData);
+        return copiedData;
+    }
 }
