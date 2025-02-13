@@ -1,5 +1,11 @@
 import { ITasks, ITask } from "../types/TTasks";
 import { appSetting } from "../appSettings";
+import { setTimeNow } from "../utils/setTimeNow";
+import { descDinner, descFeedingCat, descReading, washingCar } from "./mockDescriptions";
+import { LocalStorage } from "../utils/localStorage";
+
+const timeNow = setTimeNow();
+const timeEnd = setTimeNow(5);
 
 
 export const createTask = ({
@@ -7,9 +13,9 @@ export const createTask = ({
     title,
     description = "",
     isCompleted = false,
-    timeStart = "",
-    timeEnd = "",
-    timeOfCreation = "",
+    timeStart = setTimeNow(1),
+    timeEnd = setTimeNow(5),
+    timeOfCreation = setTimeNow(),
     subtasks = [],
     }: ITask
 ): ITask => (
@@ -30,12 +36,12 @@ export const createTask = ({
     "16march2024": [
         createTask({
             id: 1,
-            title: "Прочитать книгу",
-            description: "Нужно прочитать 20 страниц",
+            title: "Read a Book",
+            description: descReading,
             isCompleted: false,
-            timeStart: "13:42",
-            timeEnd: "16:12",
-            timeOfCreation: "12:11",
+            timeStart: timeNow,
+            timeEnd: timeEnd,
+            timeOfCreation: timeNow,
             subtasks: [
                 {
                     subId: 1,
@@ -51,12 +57,12 @@ export const createTask = ({
         }),
         createTask({
             id: 2,
-            title: "Приготовить ужин",
-            description: "",
+            title: "Prepare Dinner",
+            description: descDinner,
             isCompleted: true,
-            timeStart: "13:42",
-            timeEnd: "16:12",
-            timeOfCreation: "12:11",
+            timeStart: timeNow,
+            timeEnd: timeEnd,
+            timeOfCreation: timeNow,
             subtasks: [
                 {
                     subId: 1,
@@ -72,12 +78,33 @@ export const createTask = ({
         }),
         createTask({
             id: 3,
-            title: "Покормить кота",
-            description: "",
+            title: "Feed the Cat",
+            description: descFeedingCat,
             isCompleted: false,
-            timeStart: "13:42",
-            timeEnd: "16:12",
-            timeOfCreation: "12:11",
+            timeStart: timeNow,
+            timeEnd: timeEnd,
+            timeOfCreation: timeNow,
+            subtasks: [
+                {
+                    subId: 1,
+                    subTitle: "",
+                    subIsCompleted: false
+                },
+                {
+                    subId: 2,
+                    subTitle: "",
+                    subIsCompleted: true
+                },
+            ]
+        }),
+        createTask({
+            id: 4,
+            title: "Wash the Car",
+            description: washingCar,
+            isCompleted: true,
+            timeStart: timeNow,
+            timeEnd: timeEnd,
+            timeOfCreation: timeNow,
             subtasks: [
                 {
                     subId: 1,
@@ -95,13 +122,9 @@ export const createTask = ({
 };
 
 
-const storedData = localStorage.getItem(appSetting.localStorageName);
+const storedData = LocalStorage("get", appSetting.localStorageName);
 
-if (storedData) {
-    tasks = JSON.parse(storedData);
-}
-else {
-    localStorage.setItem(appSetting.localStorageName, JSON.stringify(tasks));
-}
+if (storedData) tasks = storedData;
+else LocalStorage("set", appSetting.localStorageName, tasks);
 
 export { tasks };
