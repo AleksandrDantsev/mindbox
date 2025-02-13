@@ -3,16 +3,18 @@ import { appSetting, type TTheme } from "../appSettings";
 import stl from "./App.module.scss";
 import Header from "../components/Header/Header";
 import TodoList from "../pages/TodoList/TodoList";
+import { LocalStorage } from "../utils/localStorage";
 
 const settings = appSetting;
 const checkSupportDeviceAnim = settings.checkSupportDevice();
-
+const themeStorage = LocalStorage("get", "theme");
 
 const App: React.FC = () => {
-    const [theme, setTheme] = useState<TTheme>(settings.theme);
+    const [theme, setTheme] = useState<TTheme>(themeStorage ?? settings.theme);
 
     const changeTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
+        LocalStorage("set", "theme", newTheme);
         setTheme(newTheme);
     }
 
