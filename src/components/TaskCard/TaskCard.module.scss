@@ -7,6 +7,7 @@
     border-bottom: solid 1px #e0e0e0;
     padding: 15px 20px;
     background-color: #fff;
+
 }
 .taskcard_container {
     display: flex;
@@ -30,4 +31,13 @@
 .crossed_title {
     text-decoration: line-through;
     opacity: 0.5;
+}
+.editable_title_block {
+    width: 100%;
+    height: min-content;
+    padding: 10px 20px;
+    outline: solid 1px #dfdede;
+    border-radius: 3px;
+    border: unset;
+    resize: none;
 }
