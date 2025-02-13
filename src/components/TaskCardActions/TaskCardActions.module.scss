@@ -1,4 +1,6 @@
 .taskcard_actions {
+    display: flex;
+    align-items: center;
     ul {
         display: flex;
         align-items: center;
@@ -13,4 +15,17 @@
 
 .taskcard_delete {
     cursor: pointer;
+}
+
+@media only screen and (max-width: 750px) {
+    .taskcard_actions {
+        ul {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+    }
+    .taskcard_movers {
+        margin-left: unset;
+    }
 }

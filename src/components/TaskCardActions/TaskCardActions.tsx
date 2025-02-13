@@ -5,26 +5,29 @@ import ActionButton from "../../UI/ActionButton/ActionButton";
 import { Popconfirm } from 'antd';
 import { ITask } from "../../types/TTasks";
 import { TChangeData } from "../../types/ChangeDataAction";
-import { ChevronDown, ChevronUp } from "@ricons/carbon";
+import { ChevronDown, ChevronUp, Pen, EditOff } from "@ricons/carbon";
 import { Information } from "@ricons/carbon";
-import { t } from "../../data/inscriptions";
+import { inscrTooltip as tip, inscrQuestions } from "../../data/inscriptions";
 
 interface ITaskCardActions {
     dataItem: ITask;
     changeData: TChangeData;
-    onOpenInfoTaskDrawer: () => void;
     index: number | string;
     isLastItemInList: boolean;
+    isOpenInputForEditing: boolean;
+    onOpenInfoTaskDrawer: () => void;
+    setIsOpenInputForEditing: () => void;
 }
 
-const tip = t.tooltip;
 
 const TaskCardActions: React.FC<ITaskCardActions> = ({ 
     dataItem,
     changeData,
     index,
     isLastItemInList,
-    onOpenInfoTaskDrawer 
+    isOpenInputForEditing,
+    onOpenInfoTaskDrawer,
+    setIsOpenInputForEditing
 }) => {
 
     const onDeleteTask = () => {
@@ -46,16 +49,25 @@ const TaskCardActions: React.FC<ITaskCardActions> = ({
     return (
         <div className={stl.taskcard_actions}>
             <ul>
+                <li className={stl.taskcard_edit}>       
+                    <ActionButton size={23} 
+                        onClick={setIsOpenInputForEditing} 
+                        tooltipText={isOpenInputForEditing ? tip.saveEditedTask : tip.editTask}
+                        color={isOpenInputForEditing ? "#afcfab": "#ababab"}
+                    >
+                        { isOpenInputForEditing ? <EditOff /> : <Pen /> }
+                    </ActionButton>
+                </li>
                 <li className={stl.taskcard_open_info}>       
-                    <ActionButton size={23} onClick={onOpenInfoTaskDrawer} tooltipText={tip.showInfo}>
-                        <Information style={{transform: "translateY(1px)"}}/> {/* TODO */}
+                    <ActionButton size={24} onClick={onOpenInfoTaskDrawer} tooltipText={tip.showInfo}>
+                        <Information />
                     </ActionButton>
                 </li>
                 <li className={stl.taskcard_delete}>
                     <ActionButton size={23} tooltipText={tip.deleteCard}>
                         <Popconfirm
                             title={tip.deleteCard}
-                            description={t.questions.deleteTaskQues}
+                            description={inscrQuestions.deleteTaskQues}
                             placement="top"
                             onConfirm={onDeleteTask}
                         >
