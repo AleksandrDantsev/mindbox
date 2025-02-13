@@ -1,6 +1,6 @@
 .todo_block {
     height: calc(100% / 1.5);
-    width: calc(100% / 2.0);
+    width: calc(100% / 1.8);
     background-color: #fff;
     box-shadow: 0 5px 15px 0 #b6b6b638;
 }
@@ -10,7 +10,7 @@
 }
 .todo_adding_search {
     display: flex;
-    height: 12%;
+    height: 5%;
 }
 .todo_switch_container {
     display: flex;
@@ -21,8 +21,9 @@
 }
 
 .todo_list {
-    height: 65%;
+    height: 70%;
     padding: 15px 0;
+    background-color: #f5f5f57e;
 }
 .todo_info_actions {
     height: 10%;
@@ -60,7 +61,7 @@ background: #f1f1f1;
 }
 @media only screen and (max-width: 850px) {
     .todo_block {
-        height: auto;
+        height: auto !important;
         width: calc(100% - 150px);
     }
     .todo_list {
